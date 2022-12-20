@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../../get.dart';
 import 'dialog/dialog_route.dart';
@@ -1062,8 +1063,11 @@ extension GetNavigationExt on GetInterface {
 
   void appUpdate() => _getxController.update();
 
-  void changeTheme(ThemeData theme) {
-    _getxController.setTheme(theme);
+  void changeTheme({
+    ThemeData? theme,
+    fluent.ThemeData? fluentTheme,
+  }) {
+    _getxController.setTheme(materialTheme: theme, fluentTheme: fluentTheme);
   }
 
   void changeThemeMode(ThemeMode themeMode) {
@@ -1156,6 +1160,15 @@ extension GetNavigationExt on GetInterface {
     var _theme = ThemeData.fallback();
     if (context != null) {
       _theme = Theme.of(context!);
+    }
+    return _theme;
+  }
+
+  /// give access to Theme.of(context)
+  fluent.ThemeData get fluentTheme {
+    var _theme = fluent.ThemeData.light();
+    if (context != null) {
+      _theme = fluent.FluentTheme.of(context!);
     }
     return _theme;
   }

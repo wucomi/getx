@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import '../../../get.dart';
 
@@ -175,6 +176,8 @@ class GetMaterialController extends FullLifeCycleController {
   Key? unikey;
   ThemeData? theme;
   ThemeData? darkTheme;
+  fluent.ThemeData? fluentTheme;
+  fluent.ThemeData? fluentDarkTheme;
   ThemeMode? themeMode;
 
   final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -218,14 +221,27 @@ class GetMaterialController extends FullLifeCycleController {
     update();
   }
 
-  void setTheme(ThemeData value) {
-    if (darkTheme == null) {
-      theme = value;
-    } else {
-      if (value.brightness == Brightness.light) {
-        theme = value;
+  void setTheme({ThemeData? materialTheme, fluent.ThemeData? fluentTheme}) {
+    if(materialTheme != null) {
+      if (darkTheme == null) {
+        theme = materialTheme;
       } else {
-        darkTheme = value;
+        if (materialTheme.brightness == Brightness.light) {
+          theme = materialTheme;
+        } else {
+          darkTheme = materialTheme;
+        }
+      }
+    }
+    if (fluentTheme != null) {
+      if (fluentDarkTheme == null) {
+        this.fluentTheme = fluentTheme;
+      } else {
+        if (fluentTheme.brightness == Brightness.light) {
+          this.fluentTheme = fluentTheme;
+        } else {
+          fluentDarkTheme = fluentTheme;
+        }
       }
     }
     update();
